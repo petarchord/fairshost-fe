@@ -1,0 +1,15 @@
+// Imports
+@import "../../styles/main.scss";
+
+// Styling header component
+.header {
+  grid-column: full-start / full-end;
+  grid-row: 1 / 2;
+  width: 100%;
+  background-color: $secondary-color;
+  text-align: center;
+  box-shadow: rgba(0, 0, 0, 0.165) 0px 0px 6px 2px;
+  padding: 0.5rem 2rem;
+  display: flex;
+  justify-content: flex-start;
+}

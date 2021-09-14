@@ -1,0 +1,25 @@
+// Imports
+@import "../../styles/main.scss";
+
+// Styling footer component
+.footer {
+  grid-column: full-start / full-end;
+  grid-row: 3 / -1;
+  background: $secondary-color;
+  display: flex;
+  justify-content: center;
+  padding: 0.1rem;
+  box-shadow: 0 0 20px $primary-color;
+
+  .container {
+    display: flex;
+    align-items: center;
+  }
+
+  p {
+    justify-self: center;
+    text-decoration: none;
+    color: $white;
+    font-size: 1.2rem;
+  }
+}

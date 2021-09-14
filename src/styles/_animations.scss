@@ -1,0 +1,14 @@
+// Glow button animation
+@keyframes glow {
+  0% {
+    box-shadow: 5px 5px 20px $tertiary-color, -5px -5px 20px $tertiary-color;
+  }
+
+  50% {
+    box-shadow: 5px 5px 20px $primary-color, -5px -5px 20px #a13941ff;
+  }
+
+  100% {
+    box-shadow: 5px 5px 20px $tertiary-color, -5px -5px 20px $tertiary-color;
+  }
+}
