@@ -1,0 +1,55 @@
+// Imports
+@import "../../styles/main.scss";
+
+.container {
+  @include container;
+
+  h1 {
+    @include title;
+
+    span {
+      font-size: 2.2rem;
+    }
+  }
+
+  .videoChatWrapper {
+    @include videoChatWrapper;
+  }
+
+  .messageViewer {
+    background-color: $secondary-color-dark;
+  }
+
+  .recieveStream {
+    @extend %button;
+    margin-top: 2rem;
+    width: fit-content;
+    background-color: $primary-color;
+  }
+
+  .inputWrapper {
+    @include inputWrapper;
+  }
+
+  .videoContainer {
+    width: 100%;
+  }
+
+  .recieveStream {
+    @extend %button;
+    background-color: $primary-color;
+
+    &:hover {
+      background: $primary-color-light;
+      box-shadow: none;
+    }
+
+    &:disabled {
+      position: static;
+      transition: none;
+      animation: none;
+      background-color: $medium-lighter;
+      cursor: not-allowed;
+    }
+  }
+}

@@ -1,0 +1,125 @@
+// Imports
+@import "../../styles/main.scss";
+
+// Setting up layout and component styling
+.container {
+  @include container;
+
+  h1 {
+    @include title;
+
+    span {
+      font-size: 2.2rem;
+      color: $secondary-color;
+    }
+  }
+
+  .inputWrapper {
+    @include inputWrapper;
+
+    @include respond(tab-port) {
+      width: 100%;
+      height: 100%;
+      margin-top: 3rem;
+    }
+
+    @include respond(phone) {
+      min-width: 100%;
+    }
+
+    .viewerLinkBtn {
+      background: none;
+      color: $secondary-color;
+      border: none;
+      font-size: 1.5rem;
+      outline: none;
+
+      &:hover {
+        color: $primary-color-light;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .videoChatWrapper {
+    @include videoChatWrapper;
+  }
+
+  .videoContainer {
+    height: 100%;
+
+    video {
+      @include video;
+    }
+  }
+
+  .startStreaming {
+    display: flex;
+    align-items: center;
+    grid-row: 3 / 4;
+
+    @include respond(phone) {
+      flex-direction: column;
+      align-items: start;
+    }
+  }
+
+  .buttonHolder {
+    @include respond(phone) {
+      display: flex;
+      margin: 2rem 0;
+    }
+  }
+
+  .startButton {
+    @extend %button;
+    background-color: $primary-color;
+    //animation: glow 1s infinite;
+    //transition: 0.5s;
+
+    &:hover {
+      background: $primary-color-light;
+      box-shadow: none;
+    }
+
+    &:disabled {
+      position: static;
+      transition: none;
+      animation: none;
+      background-color: $medium-lighter !important;
+      cursor: not-allowed;
+    }
+
+    @include respond(tab-land-2) {
+      margin-bottom: 1rem;
+    }
+
+    @include respond(phone) {
+      margin-bottom: 0;
+    }
+  }
+
+  .msgUser {
+    font-style: italic;
+    font-size: 1rem;
+  }
+
+  .showChat {
+    background: #900;
+  }
+
+  .stopButton {
+    @extend %button;
+
+    &:hover {
+      background: $primary-color-light;
+      box-shadow: none;
+    }
+
+    &:disabled {
+      position: static;
+      background-color: $medium-lighter;
+      cursor: not-allowed;
+    }
+  }
+}

@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./chat.module.scss";
+import styles from "./Chat.module.scss";
 
 // Icons imports
 import { IoIosChatboxes } from "react-icons/io";
