@@ -1,0 +1,32 @@
+@import "../../../assets/sass/main.scss";
+
+.message_wrapper {
+  display: flex;
+  flex-direction: column;
+
+  div {
+    position: relative;
+    border-radius: 10px;
+    background-color: $primary-color-light;
+    margin: 1rem 0;
+    padding: 0.5rem 1rem;
+    display: flex;
+    min-width: 50%;
+    justify-content: space-between;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+  }
+
+  p {
+    span {
+      position: absolute;
+      left: 0;
+      bottom: -2.3rem;
+      color: $medium-gray;
+      font-size: 10px;
+    }
+  }
+}
