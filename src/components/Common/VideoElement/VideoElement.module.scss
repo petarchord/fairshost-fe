@@ -1,0 +1,185 @@
+// Imports
+@import "../../../assets/sass/main.scss";
+
+.player {
+  width: 100%;
+  border-radius: 10px;
+  background-color: black;
+  position: relative;
+  cursor: pointer;
+
+  &:hover {
+    .controlsContainer {
+      opacity: 1;
+      transition: opacity 02s ease-out;
+      -webkit-transition: opacity 02s ease-out;
+      -moz-transition: opacity 02s ease-out;
+      -ms-transition: opacity 02s ease-out;
+      -o-transition: opacity 02s ease-out;
+    }
+  }
+
+  video {
+    @include video;
+  }
+
+  /* Video controls styling */
+  .showControls {
+    width: 100%;
+    height: 30%;
+    //background: $secondary-color;
+    z-index: 2;
+    position: absolute;
+    bottom: 0;
+    cursor: default;
+    transition: opacity 0.5s ease-out 2s;
+    -webkit-transition: opacity 0.5s ease-out 2s;
+    -moz-transition: opacity 0.5s ease-out 2s;
+    -ms-transition: opacity 0.5s ease-out 2s;
+    -o-transition: opacity 0.5s ease-out 2s;
+
+    svg {
+      fill: white;
+      font-size: 3rem;
+
+      &:hover {
+        cursor: pointer;
+        fill: $primary-color-light;
+      }
+    }
+  }
+
+  .controlsContainer {
+    position: absolute;
+    bottom: -5px;
+    width: 100%;
+    height: 8rem;
+    margin-top: -8rem;
+    background: rgba(0, 0, 0, 0.5);
+    box-sizing: border-box;
+    z-index: 5;
+    display: flex;
+    justify-content: space-between;
+    opacity: 0;
+  }
+
+  .controlGroup {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: space-between;
+  }
+
+  .controlsLeft,
+  .controlsRight {
+    position: relative;
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+    top: 3rem;
+  }
+
+  /* Progress Bar */
+  .progressRange {
+    position: absolute;
+    height: 8px;
+    width: calc(100% - 30px);
+    background: rgba(202, 202, 202, 0.5);
+    margin: auto;
+    left: 15px;
+    top: 1.5rem;
+    cursor: pointer;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+    transition: height 0.1s ease-in-out;
+    -webkit-transition: height 0.1s ease-in-out;
+    -moz-transition: height 0.1s ease-in-out;
+    -ms-transition: height 0.1s ease-in-out;
+    -o-transition: height 0.1s ease-in-out;
+
+    &:hover {
+      height: 10px;
+    }
+  }
+
+  .progressBar {
+    background: $white;
+    width: 50%;
+    height: 100%;
+    transition: all 0.5s ease;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+  }
+
+  /* Left Controls -------------------------- */
+
+  .controlsLeft {
+    justify-content: flex-start;
+    margin-left: 1.5rem;
+  }
+
+  /* Play & Pause */
+  .playControls {
+    margin-right: 1.5rem;
+  }
+
+  .volumeRange {
+    position: relative;
+    height: 8px;
+    width: 10rem;
+    background: rgba(70, 70, 70, 0.5);
+    top: -21px;
+    left: 50px;
+    cursor: pointer;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+  }
+
+  .volumeBar {
+    background: $white;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    transition: width 0.2s ease-in;
+  }
+
+  /* Right Controls ---------------------------- */
+  .controlsRight {
+    justify-content: flex-end;
+    margin-right: 1.5rem;
+  }
+
+  .speed,
+  .time {
+    position: relative;
+    top: 1rem;
+  }
+
+  /* Elapsed Time & Duration */
+  .time {
+    user-select: none;
+    margin-right: 1.5rem;
+    color: $white;
+    font-weight: bold;
+  }
+
+  /* Fullscreen */
+  .fullscreen {
+    cursor: pointer;
+  }
+
+  .videoFullscreen {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
