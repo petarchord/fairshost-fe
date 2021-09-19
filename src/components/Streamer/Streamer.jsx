@@ -278,7 +278,7 @@ const Streamer = () => {
   return (
     <div className={styles.container}>
       <h1 ref={streamerCaption} className={styles.title}>
-        Start your virtual event
+        Start hosting your virtual event now.
       </h1>
       <div className={styles.videoChatWrapper}>
         <div className={styles.inputWrapper}>

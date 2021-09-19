@@ -13,7 +13,6 @@
   -o-border-radius: 5px;
   transition: box-shadow 0.16s ease;
   cursor: pointer;
-  background: linear-gradient($tertiary-color, $tertiary-color-dark);
 
   &:hover {
     position: relative;
@@ -37,9 +36,10 @@
 input {
   background-color: $white;
   padding: 6px 10px;
-  border-radius: 0px;
+  border-radius: 5px;
   width: 20rem;
-  border: 1px solid transparent;
+  outline: none;
+  border: 1px solid lightgray;
 
   &:focus {
     box-shadow: 0 0 5px rgb(4, 9, 10);

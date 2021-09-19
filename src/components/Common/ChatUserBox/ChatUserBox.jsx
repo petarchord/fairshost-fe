@@ -9,8 +9,8 @@ const ChatUserBox = ({ users, currentUser }) => {
   return (
     <div className={styles.usersWrapper}>
       <p>
-        <FaUser />
-        Users
+        <FaUser color="#18b89e" />
+        Participants
       </p>
       {users.map((user) =>
         user.username !== currentUser ? (
