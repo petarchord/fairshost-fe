@@ -42,6 +42,7 @@
   .chatParagraph {
     margin-bottom: 2rem;
     display: flex;
+    color: $secondary-color;
 
     svg {
       width: 3rem;
@@ -61,7 +62,7 @@
 
   button {
     @extend %button;
-    background-color: $primary-color;
+    background-color: $secondary-color;
     display: flex;
     justify-content: center;
     align-items: center;
