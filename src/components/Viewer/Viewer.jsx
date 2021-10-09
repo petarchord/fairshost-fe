@@ -72,7 +72,7 @@ const Viewer = (props) => {
   );
 
   useEffect(() => {
-    socket.current = io.connect("https://localhost:3001/");
+    socket.current = io.connect("https://fairshost-chat-server.herokuapp.com/");
 
     socket.current.on("message", (message) => {
       let time = moment().format("h:mm a");
@@ -112,7 +112,7 @@ const Viewer = (props) => {
     connection.current.enableScalableBroadcast = true;
     connection.current.maxRelayLimitPerUser = 1;
     connection.current.autoCloseEntireSession = true;
-    connection.current.socketURL = "https://localhost:9001/";
+    connection.current.socketURL = "https://fairshost-be.herokuapp.com/";
     connection.current.socketMessageEvent = "scalable-media-broadcast-demo";
 
     console.log("connection", connection.current);
