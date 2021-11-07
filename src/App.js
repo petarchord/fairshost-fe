@@ -1,24 +1,42 @@
 import React from "react";
 import styles from "./App.module.scss";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from "react-router-dom";
 import Streamer from "./components/Streamer/Streamer";
 import Viewer from "./components/Viewer/Viewer";
-
+import Login from "./components/Login/Login";
+import Register from "./components/Register/Register";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
+import { getRedirectUrl } from "./utils/auth";
 
 const App = () => {
   return (
     <Router>
       <div className={styles.container}>
-        <Header />
+        <Route
+          path={["/user/dashboard", "/streamer", "/viewer/:username"]}
+          component={Header}
+        />
         <main className={styles.main}>
           <Switch>
-            <Route path="/" exact component={Streamer} />
+            <Route exact path="/">
+              <Redirect to={getRedirectUrl()} />
+            </Route>
+            <Route path="/login" component={Login} />
+            <Route path="/register" component={Register} />
+            <Route path="/streamer" component={Streamer} />
             <Route path="/viewer/:username" component={Viewer} />
           </Switch>
         </main>
-        <Footer />
+        <Route
+          path={["/user/dashboard", "/streamer", "/viewer/:username"]}
+          component={Footer}
+        />
       </div>
     </Router>
   );
