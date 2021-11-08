@@ -1,0 +1,66 @@
+@import "../../../styles/main.scss";
+
+.container {
+  overflow-x: auto;
+  table {
+    width: 100%;
+    margin: 2rem 0;
+    border-collapse: collapse;
+    min-width: 40rem;
+    border-radius: 0.5rem 0.5rem 0 0;
+    overflow: hidden;
+    @include respond(phone) {
+      min-width: 30rem;
+      overflow: scroll;
+    }
+
+    thead {
+      tr {
+        background-color: $secondary-color;
+        color: $white;
+        text-align: left;
+        font-weight: bold;
+      }
+    }
+
+    th {
+      padding: 1.2rem 1.5rem;
+      @include respond(phone) {
+        font-size: 1.3rem;
+        padding: 0.2rem 0.5rem;
+      }
+    }
+
+    td {
+      padding: 1.2rem 1.5rem;
+      @include respond(phone) {
+        font-size: 1.4rem;
+        padding: 1rem 0.5rem;
+      }
+    }
+
+    tbody {
+      tr {
+        background-color: $color-gray;
+        border-bottom: solid 0.1rem #ddd;
+        color: $white;
+        cursor: pointer;
+
+        &:hover {
+          background-color: $tertiary-color;
+          // color: $white;
+        }
+
+        td {
+          @include respond(phone) {
+            font-size: 1.4rem;
+          }
+        }
+      }
+    }
+
+    tbody tr:last-of-type {
+      border-bottom: 0.2rem solid $tertiary-color;
+    }
+  }
+}

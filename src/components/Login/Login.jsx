@@ -30,15 +30,15 @@ const Login = () => {
         setLoading(false);
         if (response.status >= 200 && response.status < 300) {
           localStorage.setItem("token", response.data.token);
-          history.push("/streamer");
+          history.push("/user/dashboard");
         }
       })
       .catch((error) => {
         console.log("error:", error.response);
         setLoading(false);
-        if (error.response.data.error) {
+        if (error.response.data.msg) {
           setError({
-            ["errorMessage"]: error.response.data.error,
+            ["errorMessage"]: error.response.data.msg,
           });
         }
       });

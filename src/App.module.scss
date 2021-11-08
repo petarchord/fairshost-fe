@@ -11,7 +11,7 @@
     )
     [center-end] minmax(1rem, 1fr) [full-end];
   grid-template-rows: min-content 1fr min-content;
-  background-color: $primary-color;
+  background-color: $color-gray;
   position: relative;
   height: 100%;
   min-height: 100vh;

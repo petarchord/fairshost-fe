@@ -6,15 +6,41 @@
   grid-column: full-start / full-end;
   grid-row: 1 / 2;
   width: 100%;
-  background-color: $primary-color;
+  background-color: $secondary-color;
   text-align: center;
   box-shadow: 0px 3px 6px #00000029;
   padding: 0.2rem 4rem;
-  display: flex;
-  justify-content: flex-start;
+
+  ul {
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .logoWrapper {
+    }
+
+    li {
+      font-size: 1.6rem;
+      color: $white;
+      &:hover {
+        color: $tertiary-color;
+      }
+    }
+
+    .rightNavWrapper {
+      display: flex;
+      li {
+        margin: 0 2.5rem;
+      }
+    }
+  }
 
   svg {
     width: 8rem;
     height: 8rem;
+    path,
+    text {
+      fill: $white;
+    }
   }
 }

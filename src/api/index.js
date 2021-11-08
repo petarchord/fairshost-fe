@@ -40,3 +40,7 @@ export const registerUser = (data) => {
 export const loginUser = (data) => {
   return axios.post("user/login", data);
 };
+
+export const logoutUser = () => {
+  return axios.get("user/logout");
+};

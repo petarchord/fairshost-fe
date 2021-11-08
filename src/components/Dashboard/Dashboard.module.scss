@@ -1,0 +1,29 @@
+@import "../../styles/main.scss";
+
+.container {
+  .headingWrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 3rem;
+    h3 {
+      color: $white;
+      font-size: 1.6rem;
+    }
+    button {
+      width: 16rem;
+      height: 3.5rem;
+      background-color: $tertiary-color;
+      color: $white;
+      border: none;
+      outline: none;
+      border-radius: 2.5rem;
+      font-size: 1.4rem;
+      cursor: pointer;
+      @include respond(phone) {
+        height: 3rem;
+        font-size: 1.2rem;
+      }
+    }
+  }
+}

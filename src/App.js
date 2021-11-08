@@ -12,6 +12,7 @@ import Login from "./components/Login/Login";
 import Register from "./components/Register/Register";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
+import Dashboard from "./components/Dashboard/Dashboard";
 import { getRedirectUrl } from "./utils/auth";
 
 const App = () => {
@@ -30,6 +31,7 @@ const App = () => {
             <Route path="/login" component={Login} />
             <Route path="/register" component={Register} />
             <Route path="/streamer" component={Streamer} />
+            <Route path="/user/dashboard" component={Dashboard} />
             <Route path="/viewer/:username" component={Viewer} />
           </Switch>
         </main>
