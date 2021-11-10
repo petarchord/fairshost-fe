@@ -12,7 +12,7 @@ const Header = () => {
       .then((response) => {
         if (response.data.success) {
           localStorage.removeItem("token");
-          history.push("/");
+          history.push("/login");
         }
       })
       .catch((err) => {
@@ -36,7 +36,7 @@ const Header = () => {
             <Link to="/user/dashboard">
               <li>Events</li>
             </Link>
-            <Link>
+            <Link to="/create-event">
               <li>Start Your Event</li>
             </Link>
             <Link to="#" onClick={logOutClickHandler}>

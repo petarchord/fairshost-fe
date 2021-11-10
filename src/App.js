@@ -13,6 +13,7 @@ import Register from "./components/Register/Register";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import Dashboard from "./components/Dashboard/Dashboard";
+import CreateEvent from "./components/CreateEvent/CreateEvent";
 import { getRedirectUrl } from "./utils/auth";
 
 const App = () => {
@@ -20,7 +21,12 @@ const App = () => {
     <Router>
       <div className={styles.container}>
         <Route
-          path={["/user/dashboard", "/streamer", "/viewer/:username"]}
+          path={[
+            "/user/dashboard",
+            "/streamer",
+            "/viewer/:username",
+            "/create-event",
+          ]}
           component={Header}
         />
         <main className={styles.main}>
@@ -33,10 +39,16 @@ const App = () => {
             <Route path="/streamer" component={Streamer} />
             <Route path="/user/dashboard" component={Dashboard} />
             <Route path="/viewer/:username" component={Viewer} />
+            <Route path="/create-event" component={CreateEvent} />
           </Switch>
         </main>
         <Route
-          path={["/user/dashboard", "/streamer", "/viewer/:username"]}
+          path={[
+            "/user/dashboard",
+            "/streamer",
+            "/viewer/:username",
+            "/create-event",
+          ]}
           component={Footer}
         />
       </div>
