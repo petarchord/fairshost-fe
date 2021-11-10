@@ -9,7 +9,7 @@ axios.interceptors.request.use(
       : "";
     console.log("token:", token);
     request.headers["Content-Type"] = "application/json";
-    request.headers["Authorization"] = `Bearer ${token}`;
+    request.headers["Authorization"] = token;
     console.log("request in interceptor:", request);
     return request;
   },

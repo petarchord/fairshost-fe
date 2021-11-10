@@ -6,6 +6,7 @@
   align-items: center;
   h4 {
     color: $tertiary-color;
+    font-size: 1.4rem;
     @include respond(phone) {
       font-size: 1rem;
       margin-right: 1rem;
