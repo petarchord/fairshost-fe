@@ -44,3 +44,19 @@ export const loginUser = (data) => {
 export const logoutUser = () => {
   return axios.get("user/logout");
 };
+
+export const createEvent = (data) => {
+  return axios.post("event/create", data);
+};
+
+export const getMyEvents = () => {
+  return axios.get("/event/all");
+};
+
+export const getOtherEvents = () => {
+  return axios.get("/event/all-other");
+};
+
+export const getAllEvents = () => {
+  return axios.all([axios.get("/event/all"), axios.get("/event/all-other")]);
+};

@@ -42,6 +42,27 @@
       }
     }
 
+    select {
+      width: 100%;
+      height: 3.5rem;
+      margin-right: 2rem;
+      border-radius: 2.5rem;
+      outline: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1.4rem;
+      padding: 0 2rem;
+      background-color: $color-dim-gray;
+      color: $white;
+      @include respond(phone) {
+        width: 100%;
+        height: 3rem;
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+        margin-left: 0;
+      }
+    }
+
     input[type="submit"] {
       width: 100%;
       height: 3.5rem;

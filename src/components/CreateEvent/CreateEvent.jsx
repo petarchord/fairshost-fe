@@ -1,18 +1,42 @@
 import React, { useState } from "react";
 import styles from "./CreateEvent.module.scss";
 import Loader from "../Common/Loader/Loader";
+import { useHistory } from "react-router-dom";
+import { createEvent } from "../../api";
 
 const CreateEvent = () => {
   const [topic, setTopic] = useState("");
-  const [duration, setDuration] = useState("");
+  const [duration, setDuration] = useState("1h");
   const [description, setDescription] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState({
     errorMessage: "",
   });
+  const history = useHistory();
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const data = {
+      topic,
+      expected_duration: duration,
+      description,
+    };
+    setLoading(true);
+    createEvent(data)
+      .then((res) => {
+        setLoading(false);
+        if (res.data.success) {
+          history.push("/streamer");
+        }
+      })
+      .catch((error) => {
+        setLoading(false);
+        if (error.response.data.msg) {
+          setError({
+            ["errorMessage"]: error.response.data.msg,
+          });
+        }
+      });
   };
 
   return (
@@ -26,7 +50,7 @@ const CreateEvent = () => {
           }}
         >
           <div className={styles.inputWrapper}>
-            <label htmlFor="Topic">Topic</label>
+            <label htmlFor="Topic">Topic:</label>
             <input
               type="text"
               name="topic"
@@ -38,14 +62,28 @@ const CreateEvent = () => {
           </div>
           <div className={styles.inputWrapper}>
             <label htmlFor="Expected Duration">Expected Duration:</label>
-            <input
+            {/* <input
               type="text"
               name="expectedDuiration"
               placeholder="Enter exprected duration"
               onChange={(e) => {
                 setDuration(e.target.value);
               }}
-            />
+            /> */}
+            <select
+              defaultValue="Select Expected Duration"
+              name="expectedDuration"
+              onChange={(e) => {
+                setDuration(e.target.value);
+              }}
+            >
+              <option value="1h">1h</option>
+              <option value="2h">2h</option>
+              <option value="3h">3h</option>
+              <option value="4h">4h</option>
+              <option value="5h">5h</option>
+              <option value="6h">6h</option>
+            </select>
           </div>
           <div className={styles.inputWrapper}>
             <label htmlFor="Description">Description:</label>
