@@ -26,7 +26,8 @@ const CreateEvent = () => {
       .then((res) => {
         setLoading(false);
         if (res.data.success) {
-          history.push("/streamer");
+          console.log("res.data.event_id:", res.data.event_id);
+          history.push(`/streamer/${res.data.event_id}`);
         }
       })
       .catch((error) => {
@@ -58,18 +59,11 @@ const CreateEvent = () => {
               onChange={(e) => {
                 setTopic(e.target.value);
               }}
+              required
             />
           </div>
           <div className={styles.inputWrapper}>
             <label htmlFor="Expected Duration">Expected Duration:</label>
-            {/* <input
-              type="text"
-              name="expectedDuiration"
-              placeholder="Enter exprected duration"
-              onChange={(e) => {
-                setDuration(e.target.value);
-              }}
-            /> */}
             <select
               defaultValue="Select Expected Duration"
               name="expectedDuration"

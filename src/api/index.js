@@ -60,3 +60,7 @@ export const getOtherEvents = () => {
 export const getAllEvents = () => {
   return axios.all([axios.get("/event/all"), axios.get("/event/all-other")]);
 };
+
+export const getEventById = (id) => {
+  return axios.get(`/event/${id}`);
+};

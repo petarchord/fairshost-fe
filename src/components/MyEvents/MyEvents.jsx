@@ -17,6 +17,8 @@ const MyEvents = ({ events }) => {
     return `${d.getHours()}:${d.getMinutes()}`;
   };
 
+  const getStatus = () => {};
+
   return (
     <div className={styles.container}>
       <div className={styles.headingWrapper}>
@@ -29,7 +31,7 @@ const MyEvents = ({ events }) => {
             headers={["Topic", "Expected Duration", "Date", "Time", "Status"]}
           >
             {currentPosts.map((event, index) => (
-              <tr key={event.id}>
+              <tr key={event._id}>
                 <td>{index + 1 + (currentPage - 1) * postsPerPage + "."}</td>
                 <td>{event.topic}</td>
                 <td>{event.expected_duration}</td>

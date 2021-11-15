@@ -7,14 +7,19 @@ import moment from "moment";
 // Components imports
 import VideoElement from "../Common/VideoElement/VideoElement";
 import Chat from "../Common/Chat/Chat";
+import Loader from "../Common/Loader/Loader";
+import { getEventById } from "../../api";
 
-const Streamer = () => {
+const Streamer = (props) => {
   const [streamerId, updateStreamerId] = useState("");
   const [chatMessages, setChatMessages] = useState([]);
   const [chatMessage, setChatMessage] = useState("");
   const [chatUsers, setChatUsers] = useState([]);
   const [connectionOpened, setConnectionOpened] = useState(false);
   const [broadcastStopped, setBroadcastStopped] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [topic, setTopic] = useState("");
+  const eventId = props.match.params.eventId;
 
   const streamerVideo = useRef();
   const streamerCaption = useRef();
@@ -27,6 +32,7 @@ const Streamer = () => {
   const socket = useRef();
 
   useEffect(() => {
+    console.log("eventId:", eventId);
     socket.current = io.connect("https://fairshost-chat-server.herokuapp.com/");
     socket.current.on("message", (message) => {
       console.log("message", JSON.stringify(message));
@@ -156,7 +162,21 @@ const Streamer = () => {
         setConnectionOpened(false);
       }
     };
-  }, []);
+
+    setLoading(true);
+    getEventById(eventId)
+      .then((res) => {
+        setLoading(false);
+        if (res.data.success) {
+          setTopic(res.data.event.topic);
+          updateStreamerId(res.data.event.user.username);
+        }
+      })
+      .catch((err) => {
+        setLoading(false);
+        console.log("err:", err);
+      });
+  }, [eventId]);
 
   const displayLinkToViewer = () => {
     const viewerUrl = window.location.href + "viewer/" + streamerId;
@@ -277,8 +297,9 @@ const Streamer = () => {
 
   return (
     <div className={styles.container}>
+      {loading && <Loader absolute={true} />}
       <h1 ref={streamerCaption} className={styles.title}>
-        Start hosting your virtual event now.
+        {topic}
       </h1>
       <div className={styles.videoChatWrapper}>
         <div className={styles.inputWrapper}>
@@ -286,14 +307,14 @@ const Streamer = () => {
             <VideoElement video={streamerVideo} />
           </div>
           <div className={`${styles.startStreaming} ${styles.mtLg}`}>
-            <input
+            {/* <input
               placeholder="Enter username"
               onKeyUp={onVideoKeyup}
               className={styles.input}
               type="text"
               value={streamerId}
               onChange={(e) => updateStreamerId(e.target.value)}
-            />
+            /> */}
 
             <div className={styles.buttonHolder}>
               <button

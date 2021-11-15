@@ -38,7 +38,7 @@ const MyEvents = ({ events }) => {
             ]}
           >
             {currentPosts.map((event, index) => (
-              <tr key={event.id}>
+              <tr key={event._id}>
                 <td>{index + 1 + (currentPage - 1) * postsPerPage + "."}</td>
                 <td>{event.user.username}</td>
                 <td>{event.user.first_name}</td>

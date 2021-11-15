@@ -23,7 +23,7 @@ const App = () => {
         <Route
           path={[
             "/user/dashboard",
-            "/streamer",
+            "/streamer/:id",
             "/viewer/:username",
             "/create-event",
           ]}
@@ -36,7 +36,10 @@ const App = () => {
             </Route>
             <Route path="/login" component={Login} />
             <Route path="/register" component={Register} />
-            <Route path="/streamer" component={Streamer} />
+            <Route
+              path="/streamer/:eventId"
+              component={(props) => <Streamer {...props} />}
+            />
             <Route path="/user/dashboard" component={Dashboard} />
             <Route path="/viewer/:username" component={Viewer} />
             <Route path="/create-event" component={CreateEvent} />
@@ -45,7 +48,7 @@ const App = () => {
         <Route
           path={[
             "/user/dashboard",
-            "/streamer",
+            "/streamer/:id",
             "/viewer/:username",
             "/create-event",
           ]}
