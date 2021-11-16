@@ -3,6 +3,7 @@
 
 // Setting up layout and component styling
 .container {
+  margin-bottom: 4rem;
   @include container;
 
   h1 {
@@ -65,9 +66,25 @@
   }
 
   .buttonHolder {
+    display: flex;
     @include respond(phone) {
       display: flex;
       margin: 2rem 0;
+    }
+  }
+
+  .viewerCounterWrapper {
+    display: flex;
+    align-items: center;
+    margin-left: 18rem;
+
+    svg {
+      width: 3rem;
+      height: 2rem;
+    }
+
+    p {
+      margin-left: 1rem;
     }
   }
 
@@ -85,7 +102,7 @@
     border-radius: 2.5rem;
     font-size: 1.4rem;
     cursor: pointer;
-    margin-right: 4rem;
+    margin-right: 3rem;
     @include respond(phone) {
       height: 3rem;
       font-size: 1.2rem;

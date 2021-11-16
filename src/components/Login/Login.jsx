@@ -30,6 +30,7 @@ const Login = () => {
         setLoading(false);
         if (response.status >= 200 && response.status < 300) {
           localStorage.setItem("token", response.data.token);
+          localStorage.setItem("username", response.data.user.username);
           history.push("/user/dashboard");
         }
       })

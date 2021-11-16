@@ -9,6 +9,7 @@ import VideoElement from "../Common/VideoElement/VideoElement";
 import Chat from "../Common/Chat/Chat";
 import Loader from "../Common/Loader/Loader";
 import { getEventById } from "../../api";
+import { FaEye } from "react-icons/fa";
 
 const Streamer = (props) => {
   const [streamerId, updateStreamerId] = useState("");
@@ -19,6 +20,7 @@ const Streamer = (props) => {
   const [broadcastStopped, setBroadcastStopped] = useState(false);
   const [loading, setLoading] = useState(false);
   const [topic, setTopic] = useState("");
+  const [viewersCount, setViewersCount] = useState(0);
   const eventId = props.match.params.eventId;
 
   const streamerVideo = useRef();
@@ -75,12 +77,12 @@ const Streamer = (props) => {
 
     connection.current.connectSocket(function (socket) {
       socket.on("logs", function (log) {
-        streamerCaption.current.innerHTML = log
-          .replace(/</g, "----")
-          .replace(/>/g, "___")
-          .replace(/----/g, '(<span style="color:red;">')
-          .replace(/___/g, "</span>)");
-        console.log("logs", log);
+        // streamerCaption.current.innerHTML = log
+        //   .replace(/</g, "----")
+        //   .replace(/>/g, "___")
+        //   .replace(/----/g, '(<span style="color:red;">')
+        //   .replace(/___/g, "</span>)");
+        // console.log("logs", log);
       });
 
       socket.on("broadcast-stopped", function (broadcastId) {
@@ -155,7 +157,7 @@ const Streamer = (props) => {
     // };
 
     connection.current.onNumberOfBroadcastViewersUpdated = function (e) {
-      viwersCounter.current.innerHTML = `Number of broadcast viewers: ${e.numberOfBroadcastViewers}`;
+      setViewersCount(e.numberOfBroadcastViewers);
       if (e.numberOfBroadcastViewers) {
         setConnectionOpened(true);
       } else {
@@ -178,14 +180,14 @@ const Streamer = (props) => {
       });
   }, [eventId]);
 
-  const displayLinkToViewer = () => {
-    const viewerUrl = window.location.href + "viewer/" + streamerId;
-    viewerLinkContainer.current.lastChild.onclick = function () {
-      window.open(viewerUrl, "_blank");
-    };
-    viewerLinkContainer.current.lastChild.innerHTML = viewerUrl;
-    viewerLinkContainer.current.style.display = "block";
-  };
+  // const displayLinkToViewer = () => {
+  //   const viewerUrl = window.location.href + "viewer/" + streamerId;
+  //   viewerLinkContainer.current.lastChild.onclick = function () {
+  //     window.open(viewerUrl, "_blank");
+  //   };
+  //   viewerLinkContainer.current.lastChild.innerHTML = viewerUrl;
+  //   viewerLinkContainer.current.style.display = "block";
+  // };
 
   const startStreaming = (e) => {
     if (streamerId === "") {
@@ -194,7 +196,6 @@ const Streamer = (props) => {
     }
 
     e.target.disabled = true;
-    displayLinkToViewer();
     stopStreamButton.current.disabled = false;
     console.log("streamerId", streamerId);
     connection.current.extra.broadcastId = streamerId;
@@ -317,32 +318,38 @@ const Streamer = (props) => {
             /> */}
 
             <div className={styles.buttonHolder}>
-              <button
-                id="videoButton"
-                className={`${styles.startButton} ${styles.btn}`}
-                ref={startStreamButton}
-                onClick={(e) => {
-                  startStreaming(e);
-                }}
-              >
-                Start Streaming
-              </button>
-              <button
-                className={`${styles.stopButton} ${styles.btn}`}
-                ref={stopStreamButton}
-                onClick={(e) => {
-                  stopStreaming(e);
-                }}
-              >
-                Stop Streaming
-              </button>
+              <div className={styles.buttonInnerWrapper}>
+                <button
+                  id="videoButton"
+                  className={`${styles.startButton} ${styles.btn}`}
+                  ref={startStreamButton}
+                  onClick={(e) => {
+                    startStreaming(e);
+                  }}
+                >
+                  Start Streaming
+                </button>
+                <button
+                  className={`${styles.stopButton} ${styles.btn}`}
+                  ref={stopStreamButton}
+                  onClick={(e) => {
+                    stopStreaming(e);
+                  }}
+                >
+                  Stop Streaming
+                </button>
+              </div>
+              <div className={styles.viewerCounterWrapper}>
+                <FaEye color="white" />
+                <p>{viewersCount}</p>
+              </div>
             </div>
           </div>
-          <p ref={viwersCounter}></p>
-          <div ref={viewerLinkContainer} style={{ display: "none" }}>
+          {/* <p ref={viwersCounter}></p> */}
+          {/* <div ref={viewerLinkContainer} style={{ display: "none" }}>
             <p>Watch the streamer on the link below:</p>
             <button className={styles.viewerLinkBtn}></button>
-          </div>
+          </div> */}
         </div>
         <Chat
           currentUser={streamerId}

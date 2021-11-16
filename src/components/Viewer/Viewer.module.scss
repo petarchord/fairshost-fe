@@ -5,6 +5,7 @@
   @include container;
 
   h1 {
+    margin-top: 2rem;
     @include title;
 
     span {

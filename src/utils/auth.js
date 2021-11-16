@@ -5,3 +5,7 @@ export const getRedirectUrl = () => {
     return "/login";
   }
 };
+
+export const getUsername = () => {
+  return localStorage.getItem("username");
+};

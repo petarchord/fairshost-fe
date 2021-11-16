@@ -10,13 +10,14 @@ import RtcMultiConncetion from "rtcmulticonnection-react-js";
 import VideoElement from "../Common/VideoElement/VideoElement";
 import Chat from "../Common/Chat/Chat";
 import Loader from "../Common/Loader/Loader";
-import { getViewerPageData } from "../../api";
+import { getEventById } from "../../api";
+import { getUsername } from "../../utils/auth";
 
 const Viewer = (props) => {
   const [chatMessages, setChatMessages] = useState([]);
   const [chatMessage, setChatMessage] = useState("");
   const [chatUsers, setChatUsers] = useState([]);
-  const [viewerId, setViewerId] = useState("");
+  // const [viewerId, setViewerId] = useState("");
   const [connectionOpened, setConnectionOpened] = useState(false);
   const [loading, setLoading] = useState(false);
   const [topic, setTopic] = useState("");
@@ -27,6 +28,7 @@ const Viewer = (props) => {
   const connection = useRef();
   const chatButton = useRef();
   const socket = useRef();
+  const viewerId = getUsername();
 
   const receiveStream = useCallback(
     (shouldEmitJoinStreamer) => {
@@ -42,7 +44,7 @@ const Viewer = (props) => {
         console.log("joinStreamer emited ******");
         socket.current.emit("joinStreamer", {
           room: streamer,
-          username: connection.current.userid,
+          username: viewerId,
         });
       }
 
@@ -73,7 +75,7 @@ const Viewer = (props) => {
         );
       });
     },
-    [streamer]
+    [streamer, viewerId]
   );
 
   useEffect(() => {
@@ -124,12 +126,12 @@ const Viewer = (props) => {
 
     connection.current.connectSocket(function (socket) {
       socket.on("logs", function (log) {
-        console.log("logs", log);
-        viewerCaption.current.innerHTML = log
-          .replace(/</g, "----")
-          .replace(/>/g, "___")
-          .replace(/----/g, '(<span style="color:#900;">')
-          .replace(/___/g, "</span>)");
+        // console.log("logs", log);
+        // viewerCaption.current.innerHTML = log
+        //   .replace(/</g, "----")
+        //   .replace(/>/g, "___")
+        //   .replace(/----/g, '(<span style="color:#900;">')
+        //   .replace(/___/g, "</span>)");
       });
 
       socket.on("join-broadcaster", function (hintsToJoinBroadcast) {
@@ -272,14 +274,12 @@ const Viewer = (props) => {
     };
 
     setLoading(true);
-    getViewerPageData(eventId)
+    getEventById(eventId)
       .then((res) => {
         setLoading(false);
-        if (res[0].data.success) {
-          setViewerId(res[0].data.user.username);
-        }
-        if (res[1].data.success) {
-          setTopic(res[1].data.event.topic);
+        console.log("res in viewer:", res);
+        if (res.data.success) {
+          setTopic(res.data.event.topic);
         }
       })
       .catch((err) => {
@@ -291,7 +291,7 @@ const Viewer = (props) => {
   const sendMessage = (e) => {
     if (connectionOpened) {
       socket.current.emit("chatMessage", {
-        user: connection.current.userid,
+        user: viewerId,
         chatMessage,
       });
 

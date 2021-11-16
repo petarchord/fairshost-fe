@@ -12,6 +12,7 @@ const Header = () => {
       .then((response) => {
         if (response.data.success) {
           localStorage.removeItem("token");
+          localStorage.removeItem("username");
           history.push("/login");
         }
       })
