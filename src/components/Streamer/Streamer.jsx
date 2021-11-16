@@ -248,7 +248,7 @@ const Streamer = (props) => {
       console.log("broadcast-resumed message emited");
       socket.current.emit("broadcast-resumed");
       setBroadcastStopped(false);
-      setConnectionOpened(true); //those two should be one state, will be modified in the future
+      setConnectionOpened(true);
     }
   };
 
