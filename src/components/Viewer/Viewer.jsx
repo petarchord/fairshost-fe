@@ -9,6 +9,8 @@ import RtcMultiConncetion from "rtcmulticonnection-react-js";
 // Import components
 import VideoElement from "../Common/VideoElement/VideoElement";
 import Chat from "../Common/Chat/Chat";
+import Loader from "../Common/Loader/Loader";
+import { getViewerPageData } from "../../api";
 
 const Viewer = (props) => {
   const [chatMessages, setChatMessages] = useState([]);
@@ -16,7 +18,10 @@ const Viewer = (props) => {
   const [chatUsers, setChatUsers] = useState([]);
   const [viewerId, setViewerId] = useState("");
   const [connectionOpened, setConnectionOpened] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [topic, setTopic] = useState("");
   const streamer = props.match.params.username;
+  const eventId = props.match.params.eventId;
   const viewerVideo = useRef();
   const viewerCaption = useRef();
   const connection = useRef();
@@ -171,7 +176,7 @@ const Viewer = (props) => {
 
     console.log("receive stream called");
     receiveStream(true);
-    setViewerId(connection.current.userid);
+    // setViewerId(connection.current.userid);
     // connection.current.onmessage = function (e) {
     //   let message = e.data;
     //   let remoteUser = e.userid;
@@ -265,7 +270,23 @@ const Viewer = (props) => {
 
       setConnectionOpened(false);
     };
-  }, [receiveStream]);
+
+    setLoading(true);
+    getViewerPageData(eventId)
+      .then((res) => {
+        setLoading(false);
+        if (res[0].data.success) {
+          setViewerId(res[0].data.user.username);
+        }
+        if (res[1].data.success) {
+          setTopic(res[1].data.event.topic);
+        }
+      })
+      .catch((err) => {
+        setLoading(false);
+        console.log("err:", err);
+      });
+  }, [receiveStream, eventId]);
 
   const sendMessage = (e) => {
     if (connectionOpened) {
@@ -283,7 +304,8 @@ const Viewer = (props) => {
 
   return (
     <div className={styles.container}>
-      <h1 ref={viewerCaption}>Receiving stream from {streamer}</h1>
+      {loading && <Loader absolute={true} />}
+      <h1 ref={viewerCaption}>{topic}</h1>
       <div className={styles.videoChatWrapper}>
         <div className={styles.inputWrapper}>
           <div className={styles.videoContainer}>

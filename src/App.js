@@ -23,8 +23,8 @@ const App = () => {
         <Route
           path={[
             "/user/dashboard",
-            "/streamer/:id",
-            "/viewer/:username",
+            "/streamer/:eventId",
+            "/viewer/:username/:eventId",
             "/create-event",
           ]}
           component={Header}
@@ -41,15 +41,18 @@ const App = () => {
               component={(props) => <Streamer {...props} />}
             />
             <Route path="/user/dashboard" component={Dashboard} />
-            <Route path="/viewer/:username" component={Viewer} />
+            <Route
+              path="/viewer/:username/:eventId"
+              component={(props) => <Viewer {...props} />}
+            />
             <Route path="/create-event" component={CreateEvent} />
           </Switch>
         </main>
         <Route
           path={[
             "/user/dashboard",
-            "/streamer/:id",
-            "/viewer/:username",
+            "/streamer/:eventId",
+            "/viewer/:username/:eventId",
             "/create-event",
           ]}
           component={Footer}

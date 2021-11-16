@@ -64,3 +64,10 @@ export const getAllEvents = () => {
 export const getEventById = (id) => {
   return axios.get(`/event/${id}`);
 };
+
+export const getViewerPageData = (eventId) => {
+  return axios.all([
+    axios.get("/user/current"),
+    axios.get(`/event/${eventId}`),
+  ]);
+};
