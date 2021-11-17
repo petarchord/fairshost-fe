@@ -28,7 +28,13 @@ const MyEvents = ({ events }) => {
       {currentPosts.length ? (
         <div>
           <Table
-            headers={["Topic", "Expected Duration", "Date", "Time", "Status"]}
+            headers={[
+              "Topic",
+              "Expected Duration",
+              "Start Date",
+              "Start Time",
+              "Status",
+            ]}
           >
             {currentPosts.map((event, index) => (
               <tr key={event._id}>
@@ -36,7 +42,7 @@ const MyEvents = ({ events }) => {
                 <td>{event.topic}</td>
                 <td>{event.expected_duration}</td>
                 <td>{new Date(event.date).toLocaleDateString()}</td>
-                <td>{getLocalTime(event.date)}</td>
+                <td>{getLocalTime(event.date) + "h"}</td>
                 <td>{event.status}</td>
               </tr>
             ))}

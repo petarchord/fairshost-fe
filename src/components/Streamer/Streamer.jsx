@@ -8,7 +8,7 @@ import moment from "moment";
 import VideoElement from "../Common/VideoElement/VideoElement";
 import Chat from "../Common/Chat/Chat";
 import Loader from "../Common/Loader/Loader";
-import { getEventById } from "../../api";
+import { getEventById, updateEvent } from "../../api";
 import { FaEye } from "react-icons/fa";
 
 const Streamer = (props) => {
@@ -189,6 +189,25 @@ const Streamer = (props) => {
   //   viewerLinkContainer.current.style.display = "block";
   // };
 
+  const updateEventStatus = (status) => {
+    setLoading(true);
+    const data = {
+      eventId,
+      status,
+    };
+    updateEvent(data)
+      .then((res) => {
+        setLoading(false);
+        if (res.data.success) {
+          console.log("update succeded");
+        }
+      })
+      .catch((err) => {
+        setLoading(false);
+        console.log("err in update:", err);
+      });
+  };
+
   const startStreaming = (e) => {
     if (streamerId === "") {
       alert("Please enter streamer id");
@@ -251,6 +270,8 @@ const Streamer = (props) => {
       setBroadcastStopped(false);
       setConnectionOpened(true);
     }
+
+    updateEventStatus("live");
   };
 
   const stopStreaming = (e) => {
@@ -275,6 +296,8 @@ const Streamer = (props) => {
     setConnectionOpened(false);
     console.log("connection after rem.stream", connection.current);
     console.log(streamerVideo.current.currentTime);
+    socket.current.emit("broadcast-stopped");
+    updateEventStatus("finished");
   };
 
   const sendMessage = (e) => {

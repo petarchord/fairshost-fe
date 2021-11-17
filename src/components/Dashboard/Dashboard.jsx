@@ -13,10 +13,22 @@ const Dashboard = () => {
   const socket = useRef();
 
   useEffect(() => {
-    socket.current = io.connect("https://fairshost-chat-server.herokuapp.com/");
-    socket.current.on("liveEvent", ({ msg }) => {
-      console.log("msg", msg);
-    });
+    // socket.current = io.connect("https://fairshost-chat-server.herokuapp.com/");
+    // socket.current.on("liveEvent", ({ eventId }) => {
+    //   console.log("typeof eventId:", typeof eventId);
+    //   let modEvents = otherEvents.map((event) => {
+    //     console.log("event in map:", event);
+    //     if (event._id === eventId) {
+    //       console.log("condition fulfilled.");
+    //       event.status = "live";
+    //     }
+    //     return event;
+    //   });
+    //   console.log("modEvents:", modEvents);
+    //   setOtherEvents(modEvents);
+
+    //   console.log("eventId", eventId);
+    // });
     setLoading(true);
     getAllEvents()
       .then((res) => {

@@ -71,3 +71,7 @@ export const getViewerPageData = (eventId) => {
     axios.get(`/event/${eventId}`),
   ]);
 };
+
+export const updateEvent = (data) => {
+  return axios.post("/event/update", data);
+};

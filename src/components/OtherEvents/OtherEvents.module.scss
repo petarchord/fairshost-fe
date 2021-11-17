@@ -27,4 +27,24 @@
       }
     }
   }
+
+  .actionColumn {
+    padding: 1.2rem 0;
+  }
+
+  .actionButton {
+    width: 12rem;
+    height: 3rem;
+    background-color: $color-dim-gray;
+    color: $white;
+    border: none;
+    outline: none;
+    border-radius: 2.5rem;
+    font-size: 1.2rem;
+    cursor: pointer;
+    @include respond(phone) {
+      height: 2.5rem;
+      font-size: 1rem;
+    }
+  }
 }
