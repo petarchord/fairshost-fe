@@ -45,6 +45,7 @@ const Viewer = (props) => {
         socket.current.emit("joinStreamer", {
           room: streamer,
           username: viewerId,
+          eventId,
         });
       }
 

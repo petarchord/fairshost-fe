@@ -1,52 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import io from "socket.io-client";
 import styles from "./Dashboard.module.scss";
 import MyEvents from "../MyEvents/MyEvents";
 import OtherEvents from "../OtherEvents/OtherEvents";
 import Loader from "../Common/Loader/Loader";
 import { getAllEvents } from "../../api";
 
-const events = [
-  {
-    id: 1,
-    owner: "petarchord",
-    name: "Petar",
-    lastName: "Jovanovic",
-    topic: "Web RTC",
-    date: "14.11.2021",
-    time: "8:00PM",
-    expectedDuration: "2h",
-    status: "upcoming",
-  },
-  {
-    id: 2,
-    owner: "dzony",
-    name: "Nikola",
-    lastName: "Jovanovic",
-    topic: "React Introduction",
-    date: "14.11.2021",
-    time: "8:00PM",
-    expectedDuration: "1h",
-    status: "finished",
-  },
-  {
-    id: 3,
-    owner: "samm",
-    name: "Sam",
-    lastName: "Davidson",
-    topic: "Nodejs Basic Course",
-    date: "14.11.2021",
-    time: "8:00PM",
-    expectedDuration: "1h",
-    status: "live",
-  },
-];
-
 const Dashboard = () => {
   const [myEvents, setMyEvents] = useState([]);
   const [otherEvents, setOtherEvents] = useState([]);
   const [loading, setLoading] = useState(false);
+  const socket = useRef();
 
   useEffect(() => {
+    socket.current = io.connect("https://fairshost-chat-server.herokuapp.com/");
+    socket.current.on("liveEvent", ({ msg }) => {
+      console.log("msg", msg);
+    });
     setLoading(true);
     getAllEvents()
       .then((res) => {
