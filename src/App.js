@@ -14,6 +14,7 @@ import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import Dashboard from "./components/Dashboard/Dashboard";
 import CreateEvent from "./components/CreateEvent/CreateEvent";
+import EventDetails from "./components/EventDetails/EventDetails";
 import { getRedirectUrl } from "./utils/auth";
 
 const App = () => {
@@ -26,6 +27,7 @@ const App = () => {
             "/streamer/:eventId",
             "/viewer/:username/:eventId",
             "/create-event",
+            "/event-details/:eventId",
           ]}
           component={Header}
         />
@@ -45,6 +47,10 @@ const App = () => {
               path="/viewer/:username/:eventId"
               component={(props) => <Viewer {...props} />}
             />
+            <Route
+              path="/event-details/:eventId"
+              component={(props) => <EventDetails {...props} />}
+            />
             <Route path="/create-event" component={CreateEvent} />
           </Switch>
         </main>
@@ -54,6 +60,7 @@ const App = () => {
             "/streamer/:eventId",
             "/viewer/:username/:eventId",
             "/create-event",
+            "/event-details/:eventId",
           ]}
           component={Footer}
         />

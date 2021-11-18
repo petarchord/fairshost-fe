@@ -25,11 +25,9 @@ const Streamer = (props) => {
 
   const streamerVideo = useRef();
   const streamerCaption = useRef();
-  const viwersCounter = useRef();
   const startStreamButton = useRef();
   const stopStreamButton = useRef();
   const chatButton = useRef();
-  const viewerLinkContainer = useRef();
   const connection = useRef();
   const socket = useRef();
 
@@ -313,13 +311,6 @@ const Streamer = (props) => {
     }
   };
 
-  const onVideoKeyup = (e) => {
-    if (e.keyCode === 13) {
-      e.preventDefault();
-      startStreamButton.current.click();
-    }
-  };
-
   return (
     <div className={styles.container}>
       {loading && <Loader absolute={true} />}
@@ -332,15 +323,6 @@ const Streamer = (props) => {
             <VideoElement video={streamerVideo} />
           </div>
           <div className={`${styles.startStreaming} ${styles.mtLg}`}>
-            {/* <input
-              placeholder="Enter username"
-              onKeyUp={onVideoKeyup}
-              className={styles.input}
-              type="text"
-              value={streamerId}
-              onChange={(e) => updateStreamerId(e.target.value)}
-            /> */}
-
             <div className={styles.buttonHolder}>
               <div className={styles.buttonInnerWrapper}>
                 <button
@@ -369,11 +351,6 @@ const Streamer = (props) => {
               </div>
             </div>
           </div>
-          {/* <p ref={viwersCounter}></p> */}
-          {/* <div ref={viewerLinkContainer} style={{ display: "none" }}>
-            <p>Watch the streamer on the link below:</p>
-            <button className={styles.viewerLinkBtn}></button>
-          </div> */}
         </div>
         <Chat
           currentUser={streamerId}

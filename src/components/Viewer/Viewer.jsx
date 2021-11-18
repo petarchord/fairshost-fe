@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
+import { useHistory } from "react-router-dom";
 import styles from "./Viewer.module.scss";
 
 // Import npm packages
@@ -29,6 +30,7 @@ const Viewer = (props) => {
   const chatButton = useRef();
   const socket = useRef();
   const viewerId = getUsername();
+  const history = useHistory();
 
   const receiveStream = useCallback(
     (shouldEmitJoinStreamer) => {
@@ -45,7 +47,6 @@ const Viewer = (props) => {
         socket.current.emit("joinStreamer", {
           room: streamer,
           username: viewerId,
-          eventId,
         });
       }
 
@@ -324,6 +325,14 @@ const Viewer = (props) => {
           chatUsers={chatUsers}
         />
       </div>
+      <button
+        onClick={() => {
+          history.goBack();
+        }}
+        className={styles.backButton}
+      >
+        Back To Events List
+      </button>
     </div>
   );
 };

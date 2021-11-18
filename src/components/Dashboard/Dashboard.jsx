@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
-import io from "socket.io-client";
+import React, { useState, useEffect } from "react";
 import styles from "./Dashboard.module.scss";
 import MyEvents from "../MyEvents/MyEvents";
 import OtherEvents from "../OtherEvents/OtherEvents";
@@ -10,25 +9,8 @@ const Dashboard = () => {
   const [myEvents, setMyEvents] = useState([]);
   const [otherEvents, setOtherEvents] = useState([]);
   const [loading, setLoading] = useState(false);
-  const socket = useRef();
 
   useEffect(() => {
-    // socket.current = io.connect("https://fairshost-chat-server.herokuapp.com/");
-    // socket.current.on("liveEvent", ({ eventId }) => {
-    //   console.log("typeof eventId:", typeof eventId);
-    //   let modEvents = otherEvents.map((event) => {
-    //     console.log("event in map:", event);
-    //     if (event._id === eventId) {
-    //       console.log("condition fulfilled.");
-    //       event.status = "live";
-    //     }
-    //     return event;
-    //   });
-    //   console.log("modEvents:", modEvents);
-    //   setOtherEvents(modEvents);
-
-    //   console.log("eventId", eventId);
-    // });
     setLoading(true);
     getAllEvents()
       .then((res) => {

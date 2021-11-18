@@ -16,7 +16,6 @@ const Register = (props) => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState({
     password: false,
-    refferalCode: false,
     errorMessage: "",
   });
   const [loading, setLoading] = useState(false);
