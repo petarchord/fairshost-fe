@@ -32,7 +32,6 @@ const Streamer = (props) => {
   const socket = useRef();
 
   useEffect(() => {
-    console.log("eventId:", eventId);
     socket.current = io.connect("https://fairshost-chat-server.herokuapp.com/");
     socket.current.on("message", (message) => {
       console.log("message", JSON.stringify(message));
@@ -113,46 +112,22 @@ const Streamer = (props) => {
 
     connection.current.onopen = function () {
       console.log("connection opened");
+
       // connection.current.send(`${streamerId}: Hello everyone!`);
     };
-
-    // connection.current.onmessage = function (e) {
-    //   let message = e.data;
-    //   let remoteUser = e.userid;
-    //   let time = moment().format("h:mm a");
-    //   let msgObject = {
-    //     user: remoteUser,
-    //     time,
-    //     chatMessage: message,
-    //   };
-    //   setChatMessages((prevState) => {
-    //     return [msgObject, ...prevState];
-    //   });
-    // };
 
     connection.current.onstream = function (e) {
       console.log("onstream event:", e);
       streamerVideo.current.srcObject = e.stream;
       streamerVideo.current.streamid = e.streamid;
       streamerVideo.current.play();
+      // updateEventStatus("live");
     };
 
     connection.current.onleave = function (e) {
       console.log("onleave triggered");
-      // console.log(`onleave: the user with id ${e.userid} has left the chat`);
-      // leftChatMessage.current.innerHTML = `${e.userid} has left the chat.`;
+      updateEventStatus("finished");
     };
-
-    // connection.current.onclose = function (e) {
-    //   console.log(`onclose: the user with id ${e.userid} has left the chat`);
-    // };
-
-    // connection.current.onUserStatusChanged = function (e) {
-    //   console.log("onUserStatusChanged", e.userid, e.status);
-    //   if (e.status === "offline") {
-    //     leftChatMessage.current.innerHTML = `${e.userid} has left the chat.`;
-    //   }
-    // };
 
     connection.current.onNumberOfBroadcastViewersUpdated = function (e) {
       setViewersCount(e.numberOfBroadcastViewers);
@@ -178,32 +153,24 @@ const Streamer = (props) => {
       });
   }, [eventId]);
 
-  // const displayLinkToViewer = () => {
-  //   const viewerUrl = window.location.href + "viewer/" + streamerId;
-  //   viewerLinkContainer.current.lastChild.onclick = function () {
-  //     window.open(viewerUrl, "_blank");
-  //   };
-  //   viewerLinkContainer.current.lastChild.innerHTML = viewerUrl;
-  //   viewerLinkContainer.current.style.display = "block";
-  // };
-
-  const updateEventStatus = (status) => {
+  const updateEventStatus = async (status) => {
     setLoading(true);
     const data = {
       eventId,
       status,
     };
-    updateEvent(data)
-      .then((res) => {
-        setLoading(false);
-        if (res.data.success) {
-          console.log("update succeded");
-        }
-      })
-      .catch((err) => {
-        setLoading(false);
-        console.log("err in update:", err);
-      });
+    let res = await updateEvent(data);
+    setLoading(false);
+    if (res.data.success) {
+      console.log("event successfully updated");
+      if (status === "live") {
+        socket.current.emit("broadcast-started");
+      } else {
+        socket.current.emit("broadcast-stopped");
+      }
+    } else {
+      console.log("error occured.");
+    }
   };
 
   const startStreaming = (e) => {
@@ -211,7 +178,7 @@ const Streamer = (props) => {
       alert("Please enter streamer id");
       return;
     }
-
+    updateEventStatus("live");
     e.target.disabled = true;
     stopStreamButton.current.disabled = false;
     console.log("streamerId", streamerId);
@@ -221,7 +188,6 @@ const Streamer = (props) => {
       socket.current.emit("joinStreamer", {
         room: streamerId,
         username: streamerId,
-        eventId,
       });
     }
 
@@ -268,8 +234,6 @@ const Streamer = (props) => {
       setBroadcastStopped(false);
       setConnectionOpened(true);
     }
-
-    updateEventStatus("live");
   };
 
   const stopStreaming = (e) => {

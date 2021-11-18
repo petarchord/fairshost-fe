@@ -127,14 +127,9 @@ const Viewer = (props) => {
     console.log("connection", connection.current);
 
     connection.current.connectSocket(function (socket) {
-      socket.on("logs", function (log) {
-        // console.log("logs", log);
-        // viewerCaption.current.innerHTML = log
-        //   .replace(/</g, "----")
-        //   .replace(/>/g, "___")
-        //   .replace(/----/g, '(<span style="color:#900;">')
-        //   .replace(/___/g, "</span>)");
-      });
+      // socket.on("logs", function (log) {
+
+      // });
 
       socket.on("join-broadcaster", function (hintsToJoinBroadcast) {
         console.log("join-broadcaster", hintsToJoinBroadcast);
@@ -180,20 +175,6 @@ const Viewer = (props) => {
 
     console.log("receive stream called");
     receiveStream(true);
-    // setViewerId(connection.current.userid);
-    // connection.current.onmessage = function (e) {
-    //   let message = e.data;
-    //   let remoteUser = e.userid;
-    //   let time = moment().format("h:mm a");
-    //   let msgObject = {
-    //     user: remoteUser,
-    //     time,
-    //     message,
-    //   };
-    //   setChatMessages((prevState) => {
-    //     return [msgObject, ...prevState];
-    //   });
-    // };
 
     connection.current.onopen = function (e) {
       console.log("connection opened");
