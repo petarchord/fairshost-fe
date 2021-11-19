@@ -34,7 +34,6 @@ const Streamer = (props) => {
   useEffect(() => {
     socket.current = io.connect("https://fairshost-chat-server.herokuapp.com/");
     socket.current.on("message", (message) => {
-      console.log("message", JSON.stringify(message));
       let time = moment().format("h:mm a");
       const msgObject = {
         ...message,
@@ -43,8 +42,6 @@ const Streamer = (props) => {
       setChatMessages((prevState) => {
         return [msgObject, ...prevState];
       });
-
-      console.log("msgObject", msgObject);
     });
 
     socket.current.on("roomUsers", ({ room, users }) => {
@@ -71,17 +68,8 @@ const Streamer = (props) => {
     connection.current.socketMessageEvent = "scalable-media-broadcast-demo";
 
     console.log("connection from useEffect", connection);
-
+    stopStreamButton.current.disabled = true;
     connection.current.connectSocket(function (socket) {
-      socket.on("logs", function (log) {
-        // streamerCaption.current.innerHTML = log
-        //   .replace(/</g, "----")
-        //   .replace(/>/g, "___")
-        //   .replace(/----/g, '(<span style="color:red;">')
-        //   .replace(/___/g, "</span>)");
-        // console.log("logs", log);
-      });
-
       socket.on("broadcast-stopped", function (broadcastId) {
         alert("Broadcast has been stopped.");
         // location.reload();
@@ -92,6 +80,7 @@ const Streamer = (props) => {
       // this event is emitted when a broadcast is absent.
       socket.on("start-broadcasting", function (typeOfStreams) {
         console.log("start-broadcasting", typeOfStreams);
+        updateEventStatus("live");
 
         // host i.e. sender should always use this!
         connection.current.sdpConstraints.mandatory = {
@@ -121,12 +110,10 @@ const Streamer = (props) => {
       streamerVideo.current.srcObject = e.stream;
       streamerVideo.current.streamid = e.streamid;
       streamerVideo.current.play();
-      // updateEventStatus("live");
     };
 
     connection.current.onleave = function (e) {
       console.log("onleave triggered");
-      updateEventStatus("finished");
     };
 
     connection.current.onNumberOfBroadcastViewersUpdated = function (e) {
@@ -178,7 +165,6 @@ const Streamer = (props) => {
       alert("Please enter streamer id");
       return;
     }
-    updateEventStatus("live");
     e.target.disabled = true;
     stopStreamButton.current.disabled = false;
     console.log("streamerId", streamerId);
@@ -258,7 +244,6 @@ const Streamer = (props) => {
     setConnectionOpened(false);
     console.log("connection after rem.stream", connection.current);
     console.log(streamerVideo.current.currentTime);
-    socket.current.emit("broadcast-stopped");
     updateEventStatus("finished");
   };
 
