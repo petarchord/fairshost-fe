@@ -72,7 +72,6 @@ const Streamer = (props) => {
     connection.current.connectSocket(function (socket) {
       socket.on("broadcast-stopped", function (broadcastId) {
         alert("Broadcast has been stopped.");
-        // location.reload();
         console.error("broadcast-stopped", broadcastId);
         alert("This broadcast has been stopped.");
       });
@@ -138,6 +137,15 @@ const Streamer = (props) => {
         setLoading(false);
         console.log("err:", err);
       });
+
+    return () => {
+      if (connectionOpened) {
+        streamerVideo.current.srcObject.stop();
+        connection.current.getAllParticipants().forEach(function (nodeId) {
+          connection.current.disconnectWith(nodeId);
+        });
+      }
+    };
   }, [eventId]);
 
   const updateEventStatus = async (status) => {

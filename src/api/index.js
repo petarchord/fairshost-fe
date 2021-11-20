@@ -7,10 +7,8 @@ axios.interceptors.request.use(
     let token = localStorage.getItem("token")
       ? localStorage.getItem("token")
       : "";
-    console.log("token:", token);
     request.headers["Content-Type"] = "application/json";
     request.headers["Authorization"] = token;
-    console.log("request in interceptor:", request);
     return request;
   },
   (error) => {
@@ -24,8 +22,9 @@ axios.interceptors.response.use(
     return response;
   },
   (error) => {
-    if (error.response.status === 403) {
+    if (error.response.status === 401) {
       localStorage.removeItem("token");
+      localStorage.removeItem("username");
       window.location = "/login";
     }
 

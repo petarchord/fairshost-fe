@@ -6,7 +6,7 @@ import styles from "./OtherEvents.module.scss";
 import Table from "../Common/Table/Table";
 import Pagination from "../Common/Pagination/Pagination";
 
-const MyEvents = ({ events }) => {
+const MyEvents = ({ events, filterEvents }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage, setPostsPerPage] = useState(5);
   const [filter, setFilter] = useState("all");
@@ -46,6 +46,7 @@ const MyEvents = ({ events }) => {
           <select
             name="statusSelect"
             onChange={(e) => {
+              filterEvents(e.target.value);
               setFilter(e.target.value);
             }}
           >
@@ -69,29 +70,24 @@ const MyEvents = ({ events }) => {
               "Status",
             ]}
           >
-            {currentPosts
-              .filter((event) => {
-                if (filter === "all") return event;
-                else return event.status === filter;
-              })
-              .map((event, index) => (
-                <tr
-                  onClick={() => {
-                    performAction(event);
-                  }}
-                  key={event._id}
-                >
-                  <td>{index + 1 + (currentPage - 1) * postsPerPage + "."}</td>
-                  <td>{event.user.username}</td>
-                  <td>{event.user.first_name}</td>
-                  <td>{event.user.last_name}</td>
-                  <td>{event.topic}</td>
-                  <td>{new Date(event.date).toLocaleDateString()}</td>
-                  <td>{getLocalTime(event.date) + "h"}</td>
-                  <td>{event.expected_duration}</td>
-                  <td>{event.status}</td>
-                </tr>
-              ))}
+            {currentPosts.map((event, index) => (
+              <tr
+                onClick={() => {
+                  performAction(event);
+                }}
+                key={event._id}
+              >
+                <td>{index + 1 + (currentPage - 1) * postsPerPage + "."}</td>
+                <td>{event.user.username}</td>
+                <td>{event.user.first_name}</td>
+                <td>{event.user.last_name}</td>
+                <td>{event.topic}</td>
+                <td>{new Date(event.date).toLocaleDateString()}</td>
+                <td>{getLocalTime(event.date) + "h"}</td>
+                <td>{event.expected_duration}</td>
+                <td>{event.status}</td>
+              </tr>
+            ))}
           </Table>
           <Pagination
             arrayLength={events.length}
@@ -103,7 +99,8 @@ const MyEvents = ({ events }) => {
         </div>
       ) : (
         <p className={styles.noEventsMessage}>
-          There are no other events at the moment.
+          Sorry, there are no {filter !== "all" ? filter : ""} events at the
+          moment.
         </p>
       )}
     </div>

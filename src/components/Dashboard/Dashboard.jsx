@@ -8,7 +8,19 @@ import { getAllEvents } from "../../api";
 const Dashboard = () => {
   const [myEvents, setMyEvents] = useState([]);
   const [otherEvents, setOtherEvents] = useState([]);
+  const [filteredEvents, setFilteredEvents] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  const filterEvents = (status) => {
+    let newEvents = [];
+    if (status === "all") {
+      newEvents = otherEvents;
+      setFilteredEvents(newEvents);
+    } else {
+      newEvents = otherEvents.filter((event) => event.status === status);
+      setFilteredEvents(newEvents);
+    }
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -20,6 +32,7 @@ const Dashboard = () => {
         }
         if (res[1].data.success) {
           setOtherEvents(res[1].data.events);
+          setFilteredEvents(res[1].data.events);
         }
       })
       .catch((err) => {
@@ -31,7 +44,7 @@ const Dashboard = () => {
     <div className={styles.containier}>
       {loading && <Loader absolute={true} />}
       <MyEvents events={myEvents} />
-      <OtherEvents events={otherEvents} />
+      <OtherEvents events={filteredEvents} filterEvents={filterEvents} />
     </div>
   );
 };
