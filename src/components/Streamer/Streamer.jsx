@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import styles from "./Streamer.module.scss";
 import RtcMultiConncetion from "rtcmulticonnection-react-js";
 import io from "socket.io-client";
@@ -31,6 +31,45 @@ const Streamer = (props) => {
   const connection = useRef();
   const socket = useRef();
 
+  const updateEventStatus = useCallback(
+    async (status) => {
+      setLoading(true);
+      const data = {
+        eventId,
+        status,
+      };
+      let res = await updateEvent(data);
+      setLoading(false);
+      if (res.data.success) {
+        console.log("event successfully updated");
+        if (status === "live") {
+          socket.current.emit("broadcast-started");
+        } else {
+          socket.current.emit("broadcast-stopped");
+        }
+      } else {
+        console.log("error occured.");
+      }
+    },
+    [eventId]
+  );
+
+  const fetchEventById = useCallback(() => {
+    setLoading(true);
+    getEventById(eventId)
+      .then((res) => {
+        setLoading(false);
+        if (res.data.success) {
+          setTopic(res.data.event.topic);
+          updateStreamerId(res.data.event.user.username);
+        }
+      })
+      .catch((err) => {
+        setLoading(false);
+        console.log("err:", err);
+      });
+  }, [eventId]);
+
   useEffect(() => {
     socket.current = io.connect("https://fairshost-chat-server.herokuapp.com/");
     socket.current.on("message", (message) => {
@@ -47,6 +86,11 @@ const Streamer = (props) => {
     socket.current.on("roomUsers", ({ room, users }) => {
       console.log("room:", room, "users:", users);
       setChatUsers(users);
+    });
+
+    socket.current.on("updateEvent", () => {
+      console.log("updateEvent socket");
+      updateEventStatus("live");
     });
 
     connection.current = new RtcMultiConncetion();
@@ -79,7 +123,7 @@ const Streamer = (props) => {
       // this event is emitted when a broadcast is absent.
       socket.on("start-broadcasting", function (typeOfStreams) {
         console.log("start-broadcasting", typeOfStreams);
-        updateEventStatus("live");
+        // updateEventStatus("live");
 
         // host i.e. sender should always use this!
         connection.current.sdpConstraints.mandatory = {
@@ -124,49 +168,16 @@ const Streamer = (props) => {
       }
     };
 
-    setLoading(true);
-    getEventById(eventId)
-      .then((res) => {
-        setLoading(false);
-        if (res.data.success) {
-          setTopic(res.data.event.topic);
-          updateStreamerId(res.data.event.user.username);
-        }
-      })
-      .catch((err) => {
-        setLoading(false);
-        console.log("err:", err);
-      });
-
-    return () => {
-      if (connectionOpened) {
-        streamerVideo.current.srcObject.stop();
-        connection.current.getAllParticipants().forEach(function (nodeId) {
-          connection.current.disconnectWith(nodeId);
-        });
-      }
-    };
-  }, [eventId]);
-
-  const updateEventStatus = async (status) => {
-    setLoading(true);
-    const data = {
-      eventId,
-      status,
-    };
-    let res = await updateEvent(data);
-    setLoading(false);
-    if (res.data.success) {
-      console.log("event successfully updated");
-      if (status === "live") {
-        socket.current.emit("broadcast-started");
-      } else {
-        socket.current.emit("broadcast-stopped");
-      }
-    } else {
-      console.log("error occured.");
-    }
-  };
+    fetchEventById();
+    // return () => {
+    //   if (connectionOpened) {
+    //     streamerVideo.current.srcObject.stop();
+    //     connection.current.getAllParticipants().forEach(function (nodeId) {
+    //       connection.current.disconnectWith(nodeId);
+    //     });
+    //   }
+    // };
+  }, [updateEventStatus, fetchEventById]);
 
   const startStreaming = (e) => {
     if (streamerId === "") {
@@ -221,6 +232,8 @@ const Streamer = (props) => {
         }
       );
     });
+
+    socket.current.emit("startStreaming");
 
     if (broadcastStopped) {
       console.log("broadcast-resumed message emited");
